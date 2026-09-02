@@ -23,4 +23,4 @@ def get_jobs():
 if __name__ == "__main__":
     jobs = get_jobs()
     print(len(jobs))
-    print(jobs[0]["title"])
+    print(jobs[0])
