@@ -10,7 +10,7 @@ response = httpx.get(
     "https://api.adzuna.com/v1/api/jobs/us/search/1",
     params={
         "app_id": app_id,
-        "app_key": app_key
+        "app_key": app_key,
         "what": "software engineer",
         "where": "Atlanta",
         "results_per_page": 10
