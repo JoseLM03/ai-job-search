@@ -1,5 +1,6 @@
 from src.filters.job_filter import is_relevant, filter_jobs
 from src.models.job import Job
+from src.models.user_preferences import UserPreferences
 
 
 def make_job(title):
@@ -16,17 +17,32 @@ def make_job(title):
         source="test",
     )
 
+def make_preferences(roles):
+    return UserPreferences(
+        desired_roles=roles,
+        work_arrangements=["remote"],
+        location=None,
+        max_commute_minutes=None,
+        employment_types=["full-time"],
+    )
+
 
 def test_relevant_title():
-    assert is_relevant(make_job("Senior Software Engineer")) is True
+    preferences = make_preferences(["software engineer"])
+
+    assert is_relevant(make_job("Senior Software Engineer"), preferences) is True
 
 
 def test_case_insensitive():
-    assert is_relevant(make_job("SOFTWARE DEVELOPER")) is True
+    preferences = make_preferences(["software developer"])
+
+    assert is_relevant(make_job("SOFTWARE DEVELOPER"), preferences) is True
 
 
 def test_irrelevant_title():
-    assert is_relevant(make_job("Marketing Manager")) is False
+    preferences = make_preferences(["software engineer"])
+
+    assert is_relevant(make_job("Marketing Manager"), preferences) is False
 
 
 def test_filter_jobs():
@@ -36,7 +52,8 @@ def test_filter_jobs():
         make_job("Python Developer"),
     ]
 
-    relevant_jobs = filter_jobs(jobs)
+    preferences = make_preferences(["software engineer", "python developer"])
+    relevant_jobs = filter_jobs(jobs, preferences)
 
     assert len(relevant_jobs) == 2
     assert relevant_jobs[0].title == "Software Engineer"

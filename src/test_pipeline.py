@@ -1,7 +1,14 @@
 from src.pipeline import get_relevant_jobs
-
+from src.models.user_preferences import UserPreferences
 
 def test_get_relevant_jobs(monkeypatch):
+    preferences = UserPreferences(
+        desired_roles=["software engineer"],
+        work_arrangements=["remote"],
+        location=None,
+        max_commute_minutes=None,
+        employment_types=["full-time"],
+    )
     fake_raw_jobs = [
         {
             "id": "1",
@@ -28,7 +35,7 @@ def test_get_relevant_jobs(monkeypatch):
         lambda: fake_raw_jobs
     )
 
-    relevant_jobs = get_relevant_jobs()
+    relevant_jobs = get_relevant_jobs(preferences)
 
     assert len(relevant_jobs) == 1
     assert relevant_jobs[0].title == "Software Engineer"
