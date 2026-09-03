@@ -1,4 +1,6 @@
+from src.normalizers.adzuna import normalize_job
 from src.models.job import Job
+from src.collectors.adzuna import get_jobs
 
 job = Job(
     id="123",
@@ -14,3 +16,8 @@ job = Job(
 )
 
 print(job)
+
+raw_jobs = get_jobs()
+raw_job = raw_jobs[0]  # Get the first job from the list of raw jobs
+normalized_job = normalize_job(raw_job)
+print(normalized_job)
