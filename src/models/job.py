@@ -2,7 +2,7 @@ from dataclasses import dataclass
 @dataclass
 
 class Job:
-    id: star
+    id: str
     title: str
     company: str
     location: str
@@ -12,3 +12,4 @@ class Job:
     url: str
     created: str
     source: str
+    work_arrangement: str | None = None

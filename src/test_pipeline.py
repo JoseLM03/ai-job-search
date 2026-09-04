@@ -15,7 +15,7 @@ def test_get_relevant_jobs(monkeypatch):
             "title": "Software Engineer",
             "company": {"display_name": "Tech Company"},
             "location": {"display_name": "Atlanta, GA"},
-            "description": "Software engineer needed.",
+            "description": "Software engineer needed. This is a fully remote position.",
             "redirect_url": "https://example.com/1",
             "created": "2026-09-02T12:00:00Z",
         },

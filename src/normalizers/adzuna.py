@@ -1,5 +1,15 @@
 from src.models.job import Job
 
+def extract_work_arrangement(description):
+    description_lower = description.lower()
+    
+    if "hybrid" in description_lower:
+        return "hybrid"
+    elif "remote" in description_lower:
+        return "remote"
+    elif "on-site" in description_lower or "onsite" in description_lower:
+        return "onsite"
+    return None
 
 def normalize_job(raw_job):
     return Job(
@@ -13,4 +23,5 @@ def normalize_job(raw_job):
         url=raw_job["redirect_url"],
         created=raw_job["created"],
         source="adzuna",
+        work_arrangement=extract_work_arrangement(raw_job["description"]),
     )
