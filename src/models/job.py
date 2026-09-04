@@ -13,3 +13,4 @@ class Job:
     created: str
     source: str
     work_arrangement: str | None = None
+    employment_type: str | None = None

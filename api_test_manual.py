@@ -21,4 +21,10 @@ data = response.json()
 print(data["count"])
 
 for job in data["results"]:
-    print(job["title"])
+    print(
+        job["title"],
+        "| contract_time:",
+        job.get("contract_time"),
+        "| contract_type:",
+        job.get("contract_type")
+    )
