@@ -11,18 +11,19 @@ def extract_work_arrangement(description):
         return "onsite"
     return None
 
-def extract_employment_type(raw_job):
+def extract_employment_types(raw_job):
+    employment_types = []
     contract_time = raw_job.get("contract_time")
     contract_type = raw_job.get("contract_type")
     if contract_time == "full_time":
-        return "full-time"
+        employment_types.append("full-time")
     elif contract_time == "part_time":
-        return "part-time"
-    elif contract_type == "contract":
-        return "contract"
+        employment_types.append("part-time")
+    if contract_type == "contract":
+        employment_types.append("contract")
     elif contract_type == "temporary":
-        return "temporary"
-    return None
+        employment_types.append("temporary")
+    return employment_types
 
 def normalize_job(raw_job):
     return Job(
@@ -37,5 +38,5 @@ def normalize_job(raw_job):
         created=raw_job["created"],
         source="adzuna",
         work_arrangement=extract_work_arrangement(raw_job["description"]),
-        employment_type=extract_employment_type(raw_job),
+        employment_types=extract_employment_types(raw_job),
     )

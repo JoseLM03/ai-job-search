@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 @dataclass
 
 class Job:
@@ -13,4 +13,4 @@ class Job:
     created: str
     source: str
     work_arrangement: str | None = None
-    employment_type: str | None = None
+    employment_types: list[str] = field(default_factory=list)

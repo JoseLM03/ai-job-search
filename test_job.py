@@ -1,6 +1,6 @@
 from src.normalizers.adzuna import normalize_job
 from src.normalizers.adzuna import extract_work_arrangement
-from src.normalizers.adzuna import extract_employment_type
+from src.normalizers.adzuna import extract_employment_types
 
 def test_normalize_job():
     raw_job = {
@@ -19,7 +19,7 @@ def test_normalize_job():
     }
 
     job = normalize_job(raw_job)
-    assert job.employment_type == "full-time"
+    assert job.employment_types == ["full-time"]
     assert job.work_arrangement == "hybrid"
     assert job.id == "123"
     assert job.title == "Python Developer"
@@ -33,8 +33,8 @@ def test_normalize_job():
     assert extract_work_arrangement("Employees must work onsite") == "onsite"
     assert extract_work_arrangement("Great opportunity with competitive benefits.") is None
     assert extract_work_arrangement("This is a hybrid position with remote flexibility.") == "hybrid"
-    assert extract_employment_type({"contract_time": "full_time"}) == "full-time"
-    assert extract_employment_type({"contract_time": "part_time"}) == "part-time"
-    assert extract_employment_type({"contract_type": "contract"}) == "contract"
-    assert extract_employment_type({"contract_type": "temporary"}) == "temporary"
-    assert extract_employment_type({"contract_time": "internship"}) is None
+    assert extract_employment_types({"contract_time": "full_time"}) == ["full-time"]
+    assert extract_employment_types({"contract_time": "part_time"}) == ["part-time"]
+    assert extract_employment_types({"contract_type": "contract"}) == ["contract"]
+    assert extract_employment_types({"contract_type": "temporary"}) == ["temporary"]
+    assert extract_employment_types({"contract_time": "internship"}) == []
