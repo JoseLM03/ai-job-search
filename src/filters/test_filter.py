@@ -3,12 +3,12 @@ from src.models.job import Job
 from src.models.user_preferences import UserPreferences
 
 
-def make_job(title, work_arrangement=None, employment_types=["full-time"]):
+def make_job(title, work_arrangement=None, employment_types=["full-time"], location="Atlanta, GA"):
     return Job(
         id="1",
         title=title,
         company="Tech Company",
-        location="Atlanta, GA",
+        location=location,
         description="Test job",
         salary_min=None,
         salary_max=None,
@@ -110,3 +110,27 @@ def test_multiple_employment_types():
     )
 
     assert is_relevant(job, preferences) is True
+
+def test_no_location_preference():
+    preferences = make_preferences(["software engineer"])
+    preferences.location = None
+
+    job = make_job("Software Engineer", "remote")
+
+    assert is_relevant(job, preferences) is True
+
+def test_location_matches():
+    preferences = make_preferences(["software engineer"])
+    preferences.location = "Atlanta, GA"
+
+    job = make_job("Software Engineer", "remote", location="Atlanta, GA")
+
+    assert is_relevant(job, preferences) is True
+
+def test_location_does_not_match():
+    preferences = make_preferences(["software engineer"])
+    preferences.location = "Atlanta, GA"
+
+    job = make_job("Software Engineer", "remote", location="New York, NY")
+
+    assert is_relevant(job, preferences) is False

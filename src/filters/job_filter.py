@@ -1,4 +1,10 @@
+def matches_location(job, preferences):
+    if not preferences.location:
+        return True
+    return preferences.location.lower() in job.location.lower()
+
 def is_relevant(job, preferences):
+    location_matches = matches_location(job, preferences)
     title = job.title.lower()
 
     role_matches = any(
@@ -18,7 +24,7 @@ def is_relevant(job, preferences):
     )
 )
 
-    return role_matches and arrangement_matches and employment_matches
+    return role_matches and arrangement_matches and employment_matches and location_matches
 
 def filter_jobs(jobs, preferences):
     return [job for job in jobs if is_relevant(job, preferences)]
