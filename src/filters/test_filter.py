@@ -3,7 +3,7 @@ from src.models.job import Job
 from src.models.user_preferences import UserPreferences
 
 
-def make_job(title, work_arrangement=None):
+def make_job(title, work_arrangement=None, employment_types=["full-time"]):
     return Job(
         id="1",
         title=title,
@@ -16,15 +16,16 @@ def make_job(title, work_arrangement=None):
         created="2026-09-02T12:00:00Z",
         work_arrangement=work_arrangement,
         source="test",
+        employment_types=employment_types,
     )
 
-def make_preferences(roles):
+def make_preferences(roles, employment_types=["full-time"]):
     return UserPreferences(
         desired_roles=roles,
         work_arrangements=["remote"],
         location=None,
         max_commute_minutes=None,
-        employment_types=["full-time"],
+        employment_types=employment_types,
     )
 
 
@@ -93,3 +94,19 @@ def test_unknown_arrangement():
     job = make_job("Software Engineer")
 
     assert is_relevant(job, preferences) is False
+
+def test_no_employment_preference():
+    preferences = make_preferences(["software engineer"], employment_types=[])
+    job = make_job("Software Engineer", "remote")
+
+    assert is_relevant(job, preferences) is True
+
+def test_multiple_employment_types():
+    preferences = make_preferences(["software engineer"], employment_types=["full-time"])
+    job = make_job(
+        "Software Engineer",
+        "remote",
+        employment_types=["full-time", "contract"]
+    )
+
+    assert is_relevant(job, preferences) is True

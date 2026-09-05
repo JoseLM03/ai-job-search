@@ -18,6 +18,7 @@ def test_get_relevant_jobs(monkeypatch):
             "description": "Software engineer needed. This is a fully remote position.",
             "redirect_url": "https://example.com/1",
             "created": "2026-09-02T12:00:00Z",
+            "contract_time": "full_time"
         },
         {
             "id": "2",
