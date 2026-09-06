@@ -3,7 +3,11 @@ from src.models.job import Job
 from src.models.user_preferences import UserPreferences
 
 
-def make_job(title, work_arrangement=None, employment_types=["full-time"], location="Atlanta, GA"):
+def make_job(title, work_arrangement=None, employment_types=None, location="Atlanta, GA"):
+    
+    if employment_types is None:
+            employment_types = ["full-time"]
+    
     return Job(
         id="1",
         title=title,
