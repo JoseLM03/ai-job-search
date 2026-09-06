@@ -1,9 +1,10 @@
+import re
 from src.models.job import Job
 
 def extract_work_arrangement(description):
     description_lower = description.lower()
     
-    if "hybrid" in description_lower:
+    if re.search(r"hybrid|remote \d+ days (per|a) week|\d+ days remote (per|a) week", description_lower):
         return "hybrid"
     elif "remote" in description_lower:
         return "remote"

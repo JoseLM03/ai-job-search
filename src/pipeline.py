@@ -4,7 +4,7 @@ from src.filters.job_filter import filter_jobs
 
 
 def get_relevant_jobs(preferences):
-    raw_jobs = get_jobs()
+    raw_jobs = get_jobs(preferences.desired_roles[0], preferences.location)
 
     jobs = [normalize_job(raw_job) for raw_job in raw_jobs]
 

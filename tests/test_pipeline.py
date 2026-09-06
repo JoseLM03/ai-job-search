@@ -5,10 +5,11 @@ def test_get_relevant_jobs(monkeypatch):
     preferences = UserPreferences(
         desired_roles=["software engineer"],
         work_arrangements=["remote"],
-        location=None,
+        location="Atlanta",
         max_commute_minutes=None,
         employment_types=["full-time"],
     )
+    calls = []
     fake_raw_jobs = [
         {
             "id": "1",
@@ -33,7 +34,7 @@ def test_get_relevant_jobs(monkeypatch):
 
     monkeypatch.setattr(
         "src.pipeline.get_jobs",
-        lambda: fake_raw_jobs
+        lambda title, location: (calls.append((title, location)) or fake_raw_jobs)
     )
 
     relevant_jobs = get_relevant_jobs(preferences)
@@ -41,3 +42,4 @@ def test_get_relevant_jobs(monkeypatch):
     assert len(relevant_jobs) == 1
     assert relevant_jobs[0].title == "Software Engineer"
     assert relevant_jobs[0].company == "Tech Company"
+    assert calls == [("software engineer", "Atlanta")]

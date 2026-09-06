@@ -28,11 +28,17 @@ def test_normalize_job():
     assert job.salary_min is None
     assert job.salary_max is None
     assert job.source == "adzuna"
+    
     assert extract_work_arrangement("This is a hybrid position.") == "hybrid"
     assert extract_work_arrangement("This is a fully remote position.") == "remote"
     assert extract_work_arrangement("Employees must work onsite") == "onsite"
     assert extract_work_arrangement("Great opportunity with competitive benefits.") is None
     assert extract_work_arrangement("This is a hybrid position with remote flexibility.") == "hybrid"
+    assert extract_work_arrangement("Software Engineer. Remote 3 days per week.") == "hybrid"
+    assert extract_work_arrangement("Remote 2 days a week.") == "hybrid"
+    assert extract_work_arrangement("2 days remote per week.") == "hybrid"
+    assert extract_work_arrangement("Hybrid position.") == "hybrid"
+    
     assert extract_employment_types({"contract_time": "full_time"}) == ["full-time"]
     assert extract_employment_types({"contract_time": "part_time"}) == ["part-time"]
     assert extract_employment_types({"contract_type": "contract"}) == ["contract"]

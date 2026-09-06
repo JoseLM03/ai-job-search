@@ -26,13 +26,16 @@ def is_relevant(job, preferences):
         job.work_arrangement in preferences.work_arrangements
     )
 
-    employment_matches = (
-    not preferences.employment_types
-    or any(
-        emp_type in preferences.employment_types
-        for emp_type in job.employment_types
-    )
-)
+    employment_matches = True
+    if not preferences.employment_types:
+        employment_matches = True
+    elif job.employment_types == []:
+        employment_matches = True
+    else:
+        employment_matches = any(
+            emp_type in preferences.employment_types
+            for emp_type in job.employment_types
+        )
 
     return role_matches and arrangement_matches and employment_matches and location_matches
 
