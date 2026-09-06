@@ -2,7 +2,6 @@ from src.filters.job_filter import is_relevant, filter_jobs
 from src.models.job import Job
 from src.models.user_preferences import UserPreferences
 
-
 def make_job(title, work_arrangement=None, employment_types=None, location="Atlanta, GA"):
     
     if employment_types is None:
@@ -138,3 +137,9 @@ def test_location_does_not_match():
     job = make_job("Software Engineer", "remote", location="New York, NY")
 
     assert is_relevant(job, preferences) is False
+
+def test_role_aliases():
+    preferences = make_preferences(["software engineer"])
+    job = make_job("Python Developer", "remote")
+
+    assert is_relevant(job, preferences) is True

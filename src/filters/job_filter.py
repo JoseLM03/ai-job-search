@@ -1,3 +1,17 @@
+from src.filters.role_aliases import ROLE_ALIASES
+
+def matches_role(job, preferences):
+    title = job.title.lower()
+    all_roles = []
+    
+    for desired_role in preferences.desired_roles:
+        all_roles.extend(ROLE_ALIASES.get(desired_role, [desired_role]))
+        
+    return any(
+        role.lower() in title
+        for role in all_roles
+    )
+
 def matches_location(job, preferences):
     if not preferences.location:
         return True
@@ -5,12 +19,8 @@ def matches_location(job, preferences):
 
 def is_relevant(job, preferences):
     location_matches = matches_location(job, preferences)
-    title = job.title.lower()
 
-    role_matches = any(
-        role.lower() in title
-        for role in preferences.desired_roles
-    )
+    role_matches = matches_role(job, preferences)
 
     arrangement_matches = (
         job.work_arrangement in preferences.work_arrangements
