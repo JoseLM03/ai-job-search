@@ -28,6 +28,7 @@ def test_normalize_job():
     assert job.salary_min is None
     assert job.salary_max is None
     assert job.source == "adzuna"
+    assert job.url == "https://example.com/job/123"
     
     assert extract_work_arrangement("This is a hybrid position.") == "hybrid"
     assert extract_work_arrangement("This is a fully remote position.") == "remote"

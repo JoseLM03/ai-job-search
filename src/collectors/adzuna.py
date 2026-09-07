@@ -23,6 +23,9 @@ def get_jobs(title, location):
     except httpx.RequestError as e:
         print(f"An error occurred while requesting Adzuna API: {e}")
         return []
+    except httpx.JSONDecodeError as e:
+        print(f"An error occurred while decoding JSON from Adzuna API: {e}")
+        return []
     
 if __name__ == "__main__":
     jobs = get_jobs("software engineer", "Atlanta")
