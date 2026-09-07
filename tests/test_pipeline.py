@@ -1,6 +1,23 @@
 from src.pipeline import get_relevant_jobs
 from src.models.user_preferences import UserPreferences
 
+def test_api_no_returned_jobs(monkeypatch):
+    preferences = UserPreferences(
+        desired_roles=["software engineer"],
+        work_arrangements=["remote"],
+        location="Atlanta",
+        max_commute_minutes=None,
+        employment_types=["full-time"],
+    )
+
+    monkeypatch.setattr(
+        "src.pipeline.get_jobs",
+        lambda title, location: []
+    )
+
+    relevant_jobs = get_relevant_jobs(preferences)
+    assert relevant_jobs == []
+
 def test_get_relevant_jobs(monkeypatch):
     preferences = UserPreferences(
         desired_roles=["software engineer"],
